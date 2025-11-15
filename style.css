@@ -1,0 +1,256 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Instrument serif", serif;
+    font-weight: 400;
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 40vh;
+    min-height: 300px;
+    padding: 16px 40px;
+    /*height: 208px;*/
+    /*background-image: url("https://unsplash.com/photos/THJJRUhNlEc");*/
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)),
+        url("header-cover.avif");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center 25%;
+    position: relative;
+    /*min-height: 300px;*/
+}
+
+header > h1 {
+    font-size: 100px;
+}
+
+header > a {
+    font-size: 25px;
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+    background-image: linear-gradient(#d99a5a, #d99a5a);
+    background-size: 0% 0.1em;
+    background-position-y: 100%;
+    background-position-x: 0%;
+    background-repeat: no-repeat;
+    transition: background-size 0.2s ease-in-out;
+}
+header > a:hover,
+a:focus,
+a:active {
+    background-size: 100% 0.1em;
+}
+
+.search {
+    position: absolute;
+    bottom: -10px;
+    /*transform: translateX(-20%);*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    max-width: 760px;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+.input-container {
+    display: flex;
+    align-items: center;
+}
+
+.input-container > input {
+    flex: 1;
+    padding: 20px 20px 20px 50px;
+    width: 560px;
+    height: 55px;
+    border: none;
+    outline: none;
+    font-size: 26px;
+    /*text-align: center;*/
+    color: #666;
+    border-radius: 6px;
+    background: transparent;
+    margin-left: 0;
+}
+
+.input-container > .icon {
+    width: 30px;
+    color: gray;
+    /*margin: auto 20px 20px;*/
+    margin-left: 50px;
+    margin-right: 0;
+}
+
+.search > button {
+    /*padding: 8px 0 10px 60px;*/
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 40px;
+    padding-right: 50px;
+    border: none;
+    font-size: 26px;
+    background-color: #f9fafb;
+}
+
+.search > button:hover {
+    background: #f5f5f5;
+    cursor: pointer;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* background-color: red; */
+    width: 100%;
+    height: 60vh;
+    /*height: 1003;*/
+}
+
+.movie-container > svg {
+    width: 150px;
+    color: gray;
+}
+
+.movie-container > h2 {
+    color: gray;
+    font-size: 25px;
+    text-align: center;
+}
+
+.movie-card {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    height: 350px;
+    width: 950px;
+    /* border: 2px solid black; */
+    border-radius: 6px;
+    margin-bottom: 15px;
+    /* background-color: gray; */
+    overflow: hidden;
+}
+
+.movie-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    /* background-color: red; */
+    gap: 10px;
+    color: black;
+}
+
+.movie-title-rating{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: black;
+}
+.movie-title-rating > h3{
+    font-size: 26px;
+    font-weight: 600;
+
+}
+
+
+.movie-title-rating > p{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.movie-details {
+ margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.movie-details > h3,p{
+    color: black;
+}
+
+
+.poster {
+    /*width: 300px;*/
+    height: 350px;
+    width: 250px;
+    /* overflow: hidden; */
+}
+
+.group-data{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-around;
+    padding: 20px 10px;
+    font-size: 22px;
+    font-weight: 400;
+}
+
+
+
+
+
+/* <!-- HTML !-->
+<button class="button-11" role="button">Button 11</button> */
+
+/* CSS */
+.button-11 {
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-left: 10px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  color: #fff;
+  background: #3D3D3D;
+  border: none;
+  box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  cursor: pointer;
+}
+
+.button-11 > i{
+    color: white;
+}
+
+.button-11 > span{
+    font-size: 14px;
+}
+
+.button-11:hover {
+  box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1), 0px 0px 0px 3.5px rgba(58, 108, 217, 0.5);
+  outline: 0;
+}
+
+.plot{
+    margin-top: 10px;
+    font-size: 26px;
+    /* line-height: 2px; */
+    font-weight: 300;
+    /* word-wrap:wrap; */
+    color: #6B7280;
+}
