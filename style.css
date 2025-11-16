@@ -233,9 +233,7 @@ main {
   cursor: pointer;
 }
 
-.button-11 > i{
-    color: white;
-}
+
 
 .button-11 > span{
     font-size: 14px;
