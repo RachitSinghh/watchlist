@@ -7,58 +7,67 @@
 
 const movieContainer = document.getElementById("movie-container");
 const searchBtn = document.getElementById("search-btn");
+const searchBar = document.getElementById("search-bar");
 
-renderInitialScreen()
+renderInitialScreen();
 
 searchBtn.addEventListener("click", handleClick);
+
 async function handleClick() {
-  const searchTerm = [
-    "love",
-    "war",
-    "life",
-    "death",
-    "man",
-    "day",
-    "night",
-    "time",
-  ];
-
-  const randomTerm = searchTerm[Math.floor(Math.random() * searchTerm.length)];
-
   try {
-    const respone = await fetch(
-      `http://www.omdbapi.com/?s=${randomTerm}&apikey=947cb689`
+    const inputValue = searchBar.value;
+    if (inputValue === "") {
+      return;
+    }
+
+    const response = await fetch(
+      `http://www.omdbapi.com/?s=${inputValue}&apikey=947cb689`
     );
-    const data = await respone.json();
+    const data = await response.json();
 
     if (!data.Search) {
-      console.log("No movies found for: ", randomTerm);
+      console.log("No movies found for: ", data.Search);
     }
+    const fullMovie = data.Search;
+    console.log("Full Movie", fullMovie);
 
-    const randomMovie =
-      data.Search[Math.floor(Math.random() * data.Search.length)];
+    // for(let i=0; i < fullMovie.length; i++){
+    //   const detailResponse = await fetch(`http://www.omdbapi.com/?i=${fullMovie[i].imdbID}&apikey=947cb689`)
 
-    const detailResponse = await fetch(
-      `http://www.omdbapi.com/?i=${randomMovie.imdbID}&apikey=947cb689`
-    );
+    //   const dataResponse = await detailResponse.json()
 
-    const fullMovie = await detailResponse.json();
-    console.log(fullMovie);
+    //   console.log("return from array", dataResponse)
+    // }
 
-    if(!fullMovie || fullMovie.Response === "False"){
-      renderInitialScreen()
-    }else{
-      displayMovies(fullMovie);
-    }
+    const detailResponse = fullMovie.map(async (response) => {
+      const res = await fetch(
+        `http://www.omdbapi.com/?i=${response.imdbID}&apikey=947cb689`
+      );
+
+      const dataRes = await res.json();
+
+      return dataRes;
+    });
+
+    const moviesWithDetails = await Promise.all(detailResponse);
+
+    console.log(moviesWithDetails);
+
+
+
+    // if (!data.Search || data.Search.Response === "False") {
+    //   renderInitialScreen();
+    // } else {
+    //   displayMovies(data);
+    // }
   } catch (error) {
     console.log(error);
   }
 }
 
-// We've two screen right now one says find your film and another presents the movies
-// so we need to do some conditional rendering here so if we have some in the screen we must see the the movie card or we should see the entry screen
-
 function displayMovies(movies) {
+
+  
   movieContainer.innerHTML = `
     <div class="movie-card">
     <img src="${movies.Poster}" class="poster" alt="${movies.Title} Poster" />
