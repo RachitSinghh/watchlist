@@ -1,10 +1,3 @@
-// const { randomBytes } = require("node:crypto");
-// implement search filter
-// render all the cards
-// the default screen should disappear and result should show at 5 cards
-// a button {watchlist} which should we render on watchlist.html or my watchlist screen once we're pressing it
-//
-
 const movieContainer = document.getElementById("movie-container");
 const searchBtn = document.getElementById("search-btn");
 const searchBar = document.getElementById("search-bar");
@@ -29,15 +22,7 @@ async function handleClick() {
       console.log("No movies found for: ", data.Search);
     }
     const fullMovie = data.Search;
-    console.log("Full Movie", fullMovie);
-
-    // for(let i=0; i < fullMovie.length; i++){
-    //   const detailResponse = await fetch(`http://www.omdbapi.com/?i=${fullMovie[i].imdbID}&apikey=947cb689`)
-
-    //   const dataResponse = await detailResponse.json()
-
-    //   console.log("return from array", dataResponse)
-    // }
+    // console.log("Full Movie", fullMovie);
 
     const detailResponse = fullMovie.map(async (response) => {
       const res = await fetch(
@@ -51,47 +36,47 @@ async function handleClick() {
 
     const moviesWithDetails = await Promise.all(detailResponse);
 
-    console.log(moviesWithDetails);
-
-
-
-    // if (!data.Search || data.Search.Response === "False") {
-    //   renderInitialScreen();
-    // } else {
-    //   displayMovies(data);
-    // }
+    if (!moviesWithDetails || moviesWithDetails === "False") {
+      renderInitialScreen();
+    } else {
+      displayMovies(moviesWithDetails);
+    }
   } catch (error) {
     console.log(error);
   }
 }
 
 function displayMovies(movies) {
+  let renderMovies = ``;
 
-  
-  movieContainer.innerHTML = `
+  movies.forEach((item) => {
+    renderMovies += `
     <div class="movie-card">
-    <img src="${movies.Poster}" class="poster" alt="${movies.Title} Poster" />
+    <img src="${item.Poster}" class="poster" alt="${item.Title} Poster" />
       <div class="movie-content">
        <div class="movie-title-rating">
-          <h3>${movies.Title}</h3>
+          <h3>${item.Title}</h3>
           <i class="fa-solid fa-star fa-lg" style="color: #FFD43B;"></i>
-          <p>${movies.imdbRating}</p>
+          <p>${item.imdbRating}</p>
         </div>
         <div class="group-data">
-          <p>${movies.Runtime}</p>
-          <p>${movies.Genre}</p>
+          <p>${item.Runtime}</p>
+          <p>${item.Genre}</p>
     
           <button class="button-11" aria-pressed="false" aria-label="Add to watchlist">
              <i class="fa-solid fa-bookmark"></i>   
             <span>Watchlist</span>
           </button>
         </div>
-          <p class="plot">${movies.Plot}</p>
+          <p class="plot">${item.Plot}</p>
         </div>
       </div>
     </div>
     <hr>
   `;
+  });
+
+  movieContainer.innerHTML = renderMovies;
 }
 
 function renderInitialScreen() {
