@@ -1,6 +1,7 @@
 const movieContainer = document.getElementById("movie-container");
 const searchBtn = document.getElementById("search-btn");
 const searchBar = document.getElementById("search-bar");
+const watchlistBtn = document.getElementById("watchlist");
 
 renderInitialScreen();
 
@@ -36,6 +37,8 @@ async function handleClick() {
 
     const moviesWithDetails = await Promise.all(detailResponse);
 
+    console.log(moviesWithDetails);
+
     if (!moviesWithDetails || moviesWithDetails === "False") {
       renderInitialScreen();
     } else {
@@ -63,9 +66,9 @@ function displayMovies(movies) {
           <p>${item.Runtime}</p>
           <p>${item.Genre}</p>
     
-          <button class="button-11" aria-pressed="false" aria-label="Add to watchlist">
-             <i class="fa-solid fa-bookmark"></i>   
-            <span>Watchlist</span>
+          <button data-movie-id="${item.imdbID}" class="button-11" aria-pressed="false" aria-label="Add to watchlist">
+          <i class="fa-regular fa-bookmark"></i>
+          <span>Watchlist</span>
           </button>
         </div>
           <p class="plot">${item.Plot}</p>
@@ -78,6 +81,19 @@ function displayMovies(movies) {
 
   movieContainer.innerHTML = renderMovies;
 }
+
+movieContainer.addEventListener("click", (event) => {
+  const btn = event.target.closest(".button-11");
+
+  if (btn) {
+    const icon = btn.querySelector("i");
+    if (icon.classList.contains("fa-regular")) {
+      icon.classList.replace("fa-regular", "fa-solid");
+    } else {
+      icon.classList.replace("fa-solid", "fa-regular");
+    }
+  }
+});
 
 function renderInitialScreen() {
   movieContainer.innerHTML = `
