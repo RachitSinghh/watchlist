@@ -3,12 +3,14 @@ const searchBtn = document.getElementById("search-btn");
 const searchBar = document.getElementById("search-bar");
 const watchlistBtn = document.getElementById("watchlist");
 let currentMovies = [];
-let watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
+let watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
 
 // console.log("CurrentMOvies -----", currentMovies);
 renderInitialScreen();
 
-searchBtn.addEventListener("click", handleClick);
+if (searchBtn) {
+  searchBtn.addEventListener("click", handleClick);
+}
 
 async function handleClick() {
   try {
@@ -52,7 +54,9 @@ async function handleClick() {
   }
 }
 
-function displayMovies(movies) {
+export function displayMovies(movies, isWatchlistPage = false) {
+  const iconClass = isWatchlistPage ? "fa-solid" : "fa-regular";
+
   let renderMovies = ``;
 
   movies.forEach((item) => {
@@ -68,9 +72,9 @@ function displayMovies(movies) {
         <div class="group-data">
           <p>${item.Runtime}</p>
           <p>${item.Genre}</p>
-    
+
           <button data-movie-id="${item.imdbID}" class="button-11" aria-pressed="false" aria-label="Add to watchlist">
-          <i class="fa-regular fa-bookmark"></i>
+          <i class="${iconClass} fa-bookmark"></i>
           <span>Watchlist</span>
           </button>
         </div>
@@ -99,16 +103,25 @@ movieContainer.addEventListener("click", (event) => {
 
     // compare to the API propery imdbID
     const movie = currentMovies.find((m) => m.imdbID === imdbId);
-    const movieIndex = watchlist.findIndex(m => m.imdbID === imdbId)
+    const movieIndex = watchlist.findIndex((m) => m.imdbID === imdbId);
 
-    if(movieIndex > -1){
-      watchlist.splice(movieIndex, 1)
-    }else{
-      watchlist.push(movie)
+    if (movieIndex > -1) {
+      watchlist.splice(movieIndex, 1);
+    } else {
+      watchlist.push(movie);
     }
-  
-    localStorage.setItem('watchlist', JSON.stringify(watchlist))
 
+    localStorage.setItem("watchlist", JSON.stringify(watchlist));
+
+    const isWatchListPage = window.location.pathname.includes("watchlist");
+
+    if (isWatchListPage && movieIndex > -1) {
+      const movieCard = btn.closest(".movie-card");
+      if (watchlist.length === 0) {
+        renderInitialScreen();
+      }
+      movieCard.remove();
+    }
 
     if (icon.classList.contains("fa-regular")) {
       icon.classList.replace("fa-regular", "fa-solid");
@@ -117,9 +130,6 @@ movieContainer.addEventListener("click", (event) => {
     }
   }
 });
-
-
-
 
 function renderInitialScreen() {
   movieContainer.innerHTML = `
