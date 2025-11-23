@@ -2,7 +2,10 @@ const movieContainer = document.getElementById("movie-container");
 const searchBtn = document.getElementById("search-btn");
 const searchBar = document.getElementById("search-bar");
 const watchlistBtn = document.getElementById("watchlist");
+let currentMovies = [];
+let watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
 
+// console.log("CurrentMOvies -----", currentMovies);
 renderInitialScreen();
 
 searchBtn.addEventListener("click", handleClick);
@@ -37,7 +40,7 @@ async function handleClick() {
 
     const moviesWithDetails = await Promise.all(detailResponse);
 
-    console.log(moviesWithDetails);
+    currentMovies = moviesWithDetails;
 
     if (!moviesWithDetails || moviesWithDetails === "False") {
       renderInitialScreen();
@@ -78,7 +81,7 @@ function displayMovies(movies) {
     <hr>
   `;
   });
-
+  // localStorage.setItem("watchlist", JSON.stringify(movies));
   movieContainer.innerHTML = renderMovies;
 }
 
@@ -86,7 +89,27 @@ movieContainer.addEventListener("click", (event) => {
   const btn = event.target.closest(".button-11");
 
   if (btn) {
+    // console.log(btn)
     const icon = btn.querySelector("i");
+
+    // Get the value from the data attribute (data-movie-id -> dataset.movieID)
+    const imdbId = btn.dataset.movieId;
+
+    if (!imdbId) return;
+
+    // compare to the API propery imdbID
+    const movie = currentMovies.find((m) => m.imdbID === imdbId);
+    const movieIndex = watchlist.findIndex(m => m.imdbID === imdbId)
+
+    if(movieIndex > -1){
+      watchlist.splice(movieIndex, 1)
+    }else{
+      watchlist.push(movie)
+    }
+  
+    localStorage.setItem('watchlist', JSON.stringify(watchlist))
+
+
     if (icon.classList.contains("fa-regular")) {
       icon.classList.replace("fa-regular", "fa-solid");
     } else {
@@ -94,6 +117,9 @@ movieContainer.addEventListener("click", (event) => {
     }
   }
 });
+
+
+
 
 function renderInitialScreen() {
   movieContainer.innerHTML = `
