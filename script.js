@@ -55,11 +55,18 @@ async function handleClick() {
 }
 
 export function displayMovies(movies, isWatchlistPage = false) {
-  const iconClass = isWatchlistPage ? "fa-solid" : "fa-regular";
-
   let renderMovies = ``;
 
   movies.forEach((item) => {
+    let iconClass;
+
+    if (isWatchlistPage) {
+      iconClass = "fa-solid";
+    } else {
+      const isInWatchList = watchlist.some((m) => m.imdbID === item.imdbID);
+      iconClass = isInWatchList ? "fa-solid" : "fa-regular";
+    }
+
     renderMovies += `
     <div class="movie-card">
     <img src="${item.Poster}" class="poster" alt="${item.Title} Poster" />
